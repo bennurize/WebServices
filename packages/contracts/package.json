@@ -27,7 +27,6 @@
   "peerDependencies": {
     "@grpc/grpc-js": "*",
     "@nestjs/microservices": "*",
-    "bullmq": "*",
     "rxjs": "*"
   },
   "peerDependenciesMeta": {
@@ -35,9 +34,6 @@
       "optional": true
     },
     "@nestjs/microservices": {
-      "optional": true
-    },
-    "bullmq": {
       "optional": true
     },
     "rxjs": {
@@ -53,7 +49,6 @@
     "@recipes/eslint": "workspace:*",
     "@recipes/tsconfig": "workspace:*",
     "@types/node": "24.19.2",
-    "bullmq": "6.4.2",
     "eslint": "9.39.5",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2",

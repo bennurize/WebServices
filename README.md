@@ -1,22 +1,30 @@
-# Recettes enrichies par IA
+# Recettes enrichies par IA – TP 1
 
-Plateforme microservices du cours DEVAPI. Un utilisateur publie une recette, le système l'**enrichit en arrière-plan** : un LLM rédige sa description, et le front l'affiche dès qu'elle est prête.
+Starter du **TP 1 – Authentification** du cours DEVAPI.
 
-Volontairement surdimensionnée pour une appli de recettes : REST, gRPC, événements NATS et jobs BullMQ, avec une base par service.
+Au fil des TP, vous construirez une plateforme de recettes en microservices : une gateway REST, des services en gRPC, puis un enrichissement des recettes par un LLM en arrière-plan. Ce premier TP pose l'authentification.
 
 ```sh
 pnpm install
-pnpm secret                    # secret de signature des JWT, dans .env
-docker compose up -d --build   # front sur http://localhost:5173, API sur http://localhost:3000/docs
+pnpm secret   # secret de signature des JWT, écrit dans .env
+pnpm infra    # la base du user service, dans Docker
+pnpm dev      # les apps en mode watch, le front sur http://localhost:5173
 ```
 
-Comptes de démonstration : `alice@example.com`, `bob@example.com`, `chloe@example.com`, mot de passe `password123`.
+## Ce qui est fourni
+
+| Où                                     | Quoi                                                                                                    |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `apps/front`                           | le front React, complet : il ne parle qu'à la gateway                                                   |
+| `apps/gateway`                         | une app Nest qui démarre, avec une seule route : `GET /health`                                          |
+| `apps/user`                            | une app Nest connectée à sa base, avec le schéma `User` et le hachage des mots de passe (`password.ts`) |
+| `packages/contracts`                   | le contrat gRPC du user service (`proto/user.proto`) et ses types TypeScript                            |
+| `packages/config`                      | la lecture des variables d'environnement                                                                |
+| `packages/eslint`, `packages/tsconfig` | les configurations partagées : ESLint, TypeScript strict                                                |
+
+La base `user-db` est pré-remplie au premier lancement : `alice@example.com`, `bob@example.com` et `chloe@example.com`, mot de passe `password123`.
 
 ## Documentation
 
-- [Démarrage](docs/getting-started.md) : Docker, mode développement, ports, vérifications
-- [Architecture](docs/architecture.md) : applications, communication, données, authentification
-- [Fournisseur LLM](docs/llm-provider.md) : faux fournisseur, vrai fournisseur
-- [Expériences de panne](docs/failure-experiments.md)
+- [Démarrage](docs/getting-started.md) : commandes, ports, vérifications
 - [Conventions](docs/conventions.md) : monorepo, TypeScript, lint, commits
-- [Plan des TP](plans/tps.md)

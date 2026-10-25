@@ -10,14 +10,13 @@
   },
   "scripts": {
     "secret": "node scripts/generate-secret.ts",
-    "infra": "docker compose up -d user-db recipe-db redis nats",
+    "infra": "docker compose up -d user-db",
     "build": "pnpm -r build",
     "dev": "pnpm --filter \"./packages/**\" build && pnpm -r --parallel dev",
     "lint": "pnpm -r lint && eslint scripts",
     "typecheck": "pnpm -r typecheck && tsc -p scripts --noEmit",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "smoke": "node scripts/smoke.ts"
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "@recipes/eslint": "workspace:*",
