@@ -1,0 +1,29 @@
+{
+  "name": "@recipes/config",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Environment variables loading, shared by the Nest apps",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@recipes/eslint": "workspace:*",
+    "@recipes/tsconfig": "workspace:*",
+    "@types/node": "^24.19.2",
+    "eslint": "9.39.5",
+    "typescript": "6.0.3"
+  }
+}

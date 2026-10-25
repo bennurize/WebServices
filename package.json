@@ -1,0 +1,30 @@
+{
+  "name": "@recipes/root",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Recipes enriched by an LLM: microservices example for the DEVAPI course",
+  "type": "module",
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "secret": "node scripts/generate-secret.ts",
+    "infra": "docker compose up -d user-db recipe-db redis nats",
+    "build": "pnpm -r build",
+    "dev": "pnpm --filter \"./packages/**\" build && pnpm -r --parallel dev",
+    "lint": "pnpm -r lint && eslint scripts",
+    "typecheck": "pnpm -r typecheck && tsc -p scripts --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "smoke": "node scripts/smoke.ts"
+  },
+  "devDependencies": {
+    "@recipes/eslint": "workspace:*",
+    "@recipes/tsconfig": "workspace:*",
+    "@types/node": "24.19.2",
+    "eslint": "9.39.5",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3"
+  }
+}

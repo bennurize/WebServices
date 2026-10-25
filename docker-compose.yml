@@ -1,0 +1,105 @@
+name: recipes
+
+x-app: &app
+  restart: unless-stopped
+
+services:
+  # --- Databases: one per service that stores data, no other service connects to it ---
+
+  user-db:
+    image: mongo:8
+    ports: ['${USER_DB_PORT:-27018}:27017']
+    volumes:
+      - user-db:/data/db
+      # Fixtures, run by the image on the first start only (empty volume)
+      - ./apps/user/fixtures:/docker-entrypoint-initdb.d:ro
+
+  recipe-db:
+    image: mongo:8
+    ports: ['${RECIPE_DB_PORT:-27019}:27017']
+    volumes:
+      - recipe-db:/data/db
+      - ./apps/recipe/fixtures:/docker-entrypoint-initdb.d:ro
+
+  # --- Messaging ---
+
+  redis:
+    image: redis:8-alpine
+    # BullMQ jobs: never evicted, and kept on disk across restarts
+    command: [redis-server, --maxmemory-policy, noeviction, --appendonly, 'yes']
+    ports: ['6379:6379']
+    volumes:
+      - redis-data:/data
+
+  nats:
+    image: nats:2.12-alpine
+    command: [--jetstream, --store_dir, /data, --http_port, '8222']
+    ports: ['4222:4222', '8222:8222']
+    volumes:
+      - nats-data:/data
+
+  # --- Apps ---
+
+  fake-llm-api:
+    <<: *app
+    build: { context: ., target: service, args: { APP: fake-llm-api } }
+    environment:
+      FAKE_FAILURE_RATE: ${FAKE_FAILURE_RATE:-0}
+    ports: ['4010:4010']
+
+  gateway:
+    <<: *app
+    build: { context: ., target: service, args: { APP: gateway } }
+    environment:
+      JWT_SECRET: ${JWT_SECRET:-}
+      RECIPE_GRPC_URL: recipe:50052
+      USER_GRPC_URL: user:50051
+    ports: ['3000:3000']
+    depends_on: [user, recipe]
+
+  user:
+    <<: *app
+    build: { context: ., target: service, args: { APP: user } }
+    environment:
+      JWT_SECRET: ${JWT_SECRET:-}
+      MONGO_URL: mongodb://user-db:27017
+    depends_on: [user-db]
+
+  recipe:
+    <<: *app
+    build: { context: ., target: service, args: { APP: recipe } }
+    environment:
+      MONGO_URL: mongodb://recipe-db:27017
+      NATS_URL: nats://nats:4222
+    depends_on: [recipe-db, nats]
+
+  enricher:
+    <<: *app
+    build: { context: ., target: service, args: { APP: enricher } }
+    environment:
+      NATS_URL: nats://nats:4222
+      REDIS_URL: redis://redis:6379
+    depends_on: [nats, redis]
+
+  job-runner:
+    <<: *app
+    build: { context: ., target: service, args: { APP: job-runner } }
+    environment:
+      LLM_API_KEY: ${LLM_API_KEY:-fake}
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://fake-llm-api:4010/v1}
+      LLM_MODEL: ${LLM_MODEL:-fake-chef}
+      NATS_URL: nats://nats:4222
+      REDIS_URL: redis://redis:6379
+    depends_on: [nats, redis, fake-llm-api]
+
+  front:
+    <<: *app
+    build: { context: ., target: front }
+    ports: ['5173:80']
+    depends_on: [gateway]
+
+volumes:
+  user-db:
+  recipe-db:
+  redis-data:
+  nats-data:

@@ -1,0 +1,20 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Apps carry exact versions, shared packages use "*" peer dependencies
+saveExact: true
+engineStrict: true
+
+# Dependencies allowed to run their install scripts
+allowBuilds:
+  # Usage telemetry pulled by swagger-ui
+  '@scarf/scarf': false
+  # Optional native speedup for BullMQ, it works without
+  msgpackr-extract: false
+  # Version check only
+  protobufjs: false
+
+# Released too recently for pnpm's default minimum release age
+minimumReleaseAgeExclude:
+  - bullmq@6.4.2

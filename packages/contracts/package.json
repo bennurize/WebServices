@@ -1,0 +1,62 @@
+{
+  "name": "@recipes/contracts",
+  "version": "0.0.1",
+  "private": true,
+  "description": "gRPC contracts (.proto), events and job definitions shared by the services",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./grpc": {
+      "types": "./dist/grpc.d.ts",
+      "default": "./dist/grpc.js"
+    }
+  },
+  "files": [
+    "dist",
+    "proto"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@grpc/grpc-js": "*",
+    "@nestjs/microservices": "*",
+    "bullmq": "*",
+    "rxjs": "*"
+  },
+  "peerDependenciesMeta": {
+    "@grpc/grpc-js": {
+      "optional": true
+    },
+    "@nestjs/microservices": {
+      "optional": true
+    },
+    "bullmq": {
+      "optional": true
+    },
+    "rxjs": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@grpc/grpc-js": "1.14.6",
+    "@grpc/proto-loader": "0.8.1",
+    "@nestjs/common": "12.2.0",
+    "@nestjs/core": "12.2.0",
+    "@nestjs/microservices": "12.2.0",
+    "@recipes/eslint": "workspace:*",
+    "@recipes/tsconfig": "workspace:*",
+    "@types/node": "24.19.2",
+    "bullmq": "6.4.2",
+    "eslint": "9.39.5",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "typescript": "6.0.3"
+  }
+}
