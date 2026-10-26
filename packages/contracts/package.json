@@ -52,7 +52,7 @@
     "@nestjs/microservices": "12.2.0",
     "@recipes/eslint": "workspace:*",
     "@recipes/tsconfig": "workspace:*",
-    "@types/node": "24.19.2",
+    "@types/node": "26.6.5",
     "bullmq": "6.4.2",
     "eslint": "9.39.5",
     "reflect-metadata": "0.2.2",

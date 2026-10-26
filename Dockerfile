@@ -2,7 +2,7 @@
 #   docker build --target service --build-arg APP=gateway .
 #   docker build --target front .
 
-FROM node:24-slim AS base
+FROM node:26-slim AS base
 RUN npm install --global pnpm@11.22.0
 WORKDIR /repo
 
@@ -20,7 +20,7 @@ FROM build AS deploy
 ARG APP
 RUN pnpm --filter "@recipes/${APP}" deploy --legacy --prod /app
 
-FROM node:24-slim AS service
+FROM node:26-slim AS service
 ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=deploy /app .

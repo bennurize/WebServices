@@ -1,6 +1,6 @@
 # Démarrage
 
-Prérequis : Node 24, pnpm 11, Docker.
+Prérequis : Node 26 (`nvm use` ou `fnm use` lit `.nvmrc`), pnpm 11, Docker.
 
 ## Toute la plateforme dans Docker
 
@@ -41,16 +41,16 @@ Une modification dans `packages/` est recompilée à la volée, mais les apps qu
 
 ## Ports
 
-| Service             | Port local             | Variable pour le changer                   |
-| ------------------- | ---------------------- | ------------------------------------------ |
-| gateway             | 3000                   | `GATEWAY_PORT`                             |
-| user (gRPC)         | 50051                  | `USER_GRPC_PORT`                           |
-| recipe (gRPC)       | 50052                  | `RECIPE_GRPC_PORT`                         |
-| user-db / recipe-db | 27018 / 27019          | `USER_DB_PORT`, `RECIPE_DB_PORT` (Compose) |
-| redis               | 6379                   |                                            |
-| nats                | 4222 (monitoring 8222) |                                            |
-| fake-llm-api        | 4010                   | `PORT`                                     |
-| front               | 5173                   |                                            |
+| Service             | Port local             | Variables pour le changer (`.env` à la racine)       |
+| ------------------- | ---------------------- | ---------------------------------------------------- |
+| gateway             | 3000                   | `GATEWAY_PORT`, et `VITE_API_URL` pour le front      |
+| user (gRPC)         | 50051                  | `USER_GRPC_PORT`, et `USER_GRPC_URL` pour la gateway |
+| recipe (gRPC)       | 50052                  | `RECIPE_GRPC_PORT`, et `RECIPE_GRPC_URL`             |
+| user-db / recipe-db | 27018 / 27019          | `USER_DB_PORT`, `RECIPE_DB_PORT` (Compose)           |
+| redis               | 6379                   |                                                      |
+| nats                | 4222 (monitoring 8222) |                                                      |
+| fake-llm-api        | 4010                   | `PORT` dans le shell, et `LLM_BASE_URL`              |
+| front               | 5173                   | `pnpm --filter @recipes/front dev --port 5273`       |
 
 ## Vérifier
 

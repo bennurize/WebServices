@@ -31,7 +31,7 @@
     "@nestjs/cli": "12.0.10",
     "@recipes/eslint": "workspace:*",
     "@recipes/tsconfig": "workspace:*",
-    "@types/node": "24.19.2",
+    "@types/node": "26.6.5",
     "eslint": "9.39.5",
     "typescript": "6.0.3"
   }

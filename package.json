@@ -6,7 +6,7 @@
   "type": "module",
   "packageManager": "pnpm@11.22.0",
   "engines": {
-    "node": ">=24"
+    "node": ">=26"
   },
   "scripts": {
     "secret": "node scripts/generate-secret.ts",
@@ -22,7 +22,7 @@
   "devDependencies": {
     "@recipes/eslint": "workspace:*",
     "@recipes/tsconfig": "workspace:*",
-    "@types/node": "24.19.2",
+    "@types/node": "26.6.5",
     "eslint": "9.39.5",
     "prettier": "3.9.10",
     "typescript": "6.0.3"
